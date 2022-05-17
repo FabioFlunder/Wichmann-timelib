@@ -23,13 +23,13 @@ int day_of_the_year(int day, int month, int year)
         tageInsgesamt += tage_im_jahr[i];
     }
     tageInsgesamt += day;
-    if(monat >= 2)
+    if(monat > 2)
         tageInsgesamt += is_leapyear(year);
 
     return tageInsgesamt;
 }
 
-// Datumseingabe. Reine Scanf // Prinff-Funktion zur Eingabe von Daten
+// Datumseingabe. Reine Scanf // Printff-Funktion zur Eingabe von Daten
 // Eingabe: ---
 // Ausgabe: Nur in der Konsole.
 int input_date()
