@@ -1,5 +1,5 @@
 // Tag im Jahr Berechnung
-// Refakturierung am 10.05.2021
+// Refakturierung am 24.05.2021
 // erstellt von Fabio Scholle
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,10 +8,12 @@
 
 int main()
 {
+    // Deklaration des Structs. Jahr ist absichtlich nicht deklariert.
     struct Datum date;
     date.month = 1;
     date.day = 1;
 
+    // Aufruf von input_date. Übernimmt IO-Funktionen.
     input_date(date);
 
     return 0;
