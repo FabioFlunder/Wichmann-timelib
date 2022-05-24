@@ -1,35 +1,35 @@
+#include "bibliothek.h"
+#include <stdio.h>
+
 int tage_im_jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 int tageInsgesamt = 0;
 int check = 0;
-int tag;
-int monat;
-int jahr;
 
-int day_of_the_year(int day, int month, int year)
+int day_of_the_year(struct Datum date)
 {
-    if(exists_date(day, month, year) == 0)
+    if(exists_date(date) == 0)
         return -1;
-    for(int i = 0; i < month-1; i++)
+    for(int i = 0; i < date.month-1; i++)
     {
         tageInsgesamt += tage_im_jahr[i];
     }
-    tageInsgesamt += day;
-    if(monat > 2)
-        tageInsgesamt += is_leapyear(year);
+    tageInsgesamt += date.day;
+    if(date.month > 2)
+        tageInsgesamt += is_leapyear(date.year);
 
     return tageInsgesamt;
 }
 // Datumseingabe. Reine Scanf // Printff-Funktion zur Eingabe von Daten
 // Eingabe: ---
 // Ausgabe: Nur in der Konsole.
-int input_date()
+int input_date(struct Datum date)
 {
     //Jahreseingabe
     do
     {
         printf("Geben Sie das Jahr ein: ");
-        scanf("%i", &jahr);
-        if(exists_date(1, 1, jahr) == 0)
+        scanf("%i", &date.year);
+        if(exists_date(date) == 0)
         {
             printf("Das Jahr ist ungueltig!\n");
             check = 1;
@@ -42,8 +42,8 @@ int input_date()
     do
     {
         printf("Geben Sie den Monat ein: ");
-        scanf("%i", &monat);
-        if(exists_date(1,monat,jahr) == 0)
+        scanf("%i", &date.month);
+        if(exists_date(date) == 0)
         {
             printf("Der Monat ist ungueltig!\n");
             check = 1;
@@ -56,8 +56,8 @@ int input_date()
     do
     {
         printf("Geben Sie den Tag ein: ");
-        scanf("%i", &tag);
-        if(exists_date(tag, monat, jahr) == 0)
+        scanf("%i", &date.day);
+        if(exists_date(date) == 0)
         {
             printf("Der Tag ist ungueltig!\n");
             check = 1;
@@ -66,7 +66,7 @@ int input_date()
         check = 0;
 
     } while(check);
-    printf("Es ist der %i. Tag im Jahr", day_of_the_year(tag, monat, jahr));
+    printf("Es ist der %i. Tag im Jahr", day_of_the_year(date));
     return 0;
 }
 
@@ -107,11 +107,11 @@ int get_days_for_month(int month, int year)
 // Datumsüberprüfung
 // Eingabe: day - ein Tag // month - ein Monat // year - ein Jahr
 // Ausgabe: 0 wenn invalid, 1 wenn valid
-int exists_date(int day, int month, int year)
+int exists_date(struct Datum date)
 {
-    if(year < 1582 || year > 2400||
-       month < 1 || month > 12||
-       day < 1 || day > get_days_for_month(month, year))
+    if(date.year < 1582 || date.year > 2400||
+       date.month < 1 || date.month > 12||
+       date.day < 1 || date.day > get_days_for_month(date.month, date.year))
        return 0;
     else
         return 1;

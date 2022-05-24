@@ -8,7 +8,11 @@
 
 int main()
 {
-    input_date();
+    struct Datum date;
+    date.month = 1;
+    date.day = 1;
+
+    input_date(date);
 
     return 0;
 }
