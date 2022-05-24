@@ -1,0 +1,187 @@
+int tage_im_jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+int tageInsgesamt = 0;
+int check = 0;
+int tag;
+int monat;
+int jahr;
+
+int day_of_the_year(int day, int month, int year)
+{
+    if(exists_date(day, month, year) == 0)
+        return -1;
+    for(int i = 0; i < month-1; i++)
+    {
+        tageInsgesamt += tage_im_jahr[i];
+    }
+    tageInsgesamt += day;
+    if(monat > 2)
+        tageInsgesamt += is_leapyear(year);
+
+    return tageInsgesamt;
+}
+// Datumseingabe. Reine Scanf // Printff-Funktion zur Eingabe von Daten
+// Eingabe: ---
+// Ausgabe: Nur in der Konsole.
+int input_date()
+{
+    //Jahreseingabe
+    do
+    {
+        printf("Geben Sie das Jahr ein: ");
+        scanf("%i", &jahr);
+        if(exists_date(1, 1, jahr) == 0)
+        {
+            printf("Das Jahr ist ungueltig!\n");
+            check = 1;
+            continue;
+        }
+        check = 0;
+    } while(check);
+
+    //Monatseingabe
+    do
+    {
+        printf("Geben Sie den Monat ein: ");
+        scanf("%i", &monat);
+        if(exists_date(1,monat,jahr) == 0)
+        {
+            printf("Der Monat ist ungueltig!\n");
+            check = 1;
+            continue;
+        }
+        check = 0;
+    } while(check);
+
+    //Tageseingabe
+    do
+    {
+        printf("Geben Sie den Tag ein: ");
+        scanf("%i", &tag);
+        if(exists_date(tag, monat, jahr) == 0)
+        {
+            printf("Der Tag ist ungueltig!\n");
+            check = 1;
+            continue;
+        }
+        check = 0;
+
+    } while(check);
+    printf("Es ist der %i. Tag im Jahr", day_of_the_year(tag, monat, jahr));
+    return 0;
+}
+
+// Funktion zur Schaltjahrbestimmung
+// Eingabe: year - Ein Jahr
+// Ausgabe: Vor Jahr 1582: -1 // Ansonsten 0 wenn kein Schaltjahr oder 1 wenn ein Schaltjahr vorliegt
+int is_leapyear(int year)
+{
+    if(year < 1582)
+        return -1;
+
+    if(year%4 != 0)
+        return 0;
+
+    else if(year%100 != 0)
+        return 1;
+
+    else if(year%400 != 0)
+        return 0;
+
+    else
+        return 1;
+}
+
+// Bestimmt wieviele Tage ein bestimmter Monat hat
+// Eingabe: month - Monat // year - Jahr
+// Ausgabe: Tage im Monat anhand der vorliegenden Monatstabelle
+int get_days_for_month(int month, int year)
+{
+        if(month < 1 || month > 12 || is_leapyear(year) == -1)
+            return -1;
+        if(month == 2)
+            return (tage_im_jahr[month-1] + is_leapyear(year));
+        else
+            return tage_im_jahr[month-1];
+}
+
+// Datumsüberprüfung
+// Eingabe: day - ein Tag // month - ein Monat // year - ein Jahr
+// Ausgabe: 0 wenn invalid, 1 wenn valid
+int exists_date(int day, int month, int year)
+{
+    if(year < 1582 || year > 2400||
+       month < 1 || month > 12||
+       day < 1 || day > get_days_for_month(month, year))
+       return 0;
+    else
+        return 1;
+}
+
+
+
+// Funktion zur Bestimmung der Kleineren von zwei Zahlen
+int min(int a, int b)
+{
+    int result;
+    if(a>b)
+        result = b;
+    else
+        result = a;
+    return result;
+}
+
+// Funktion zur Bestimmung der Größeren von zwei Zahlen
+int max(int a, int b)
+{
+    int result;
+    if(a<b)
+        result = b;
+    else
+        result = a;
+    return result;
+}
+
+// Gibt -1 zurück bei einer negativen und 1 bei einer positiven Zahl. 0 bei Null.
+int vorzeichen(int c)
+{
+    int result = 0;
+    if(c > 0)
+        result = 1;
+    else if(c < 0)
+        result = -1;
+    return c;
+}
+
+// WIP
+// Gibt den Tag der Woche zurück. "0" für Sonntag und "6" für Samstag
+// Eingabe: Day - Tag. Month - Monat. Year - Jahr.
+// Rückgabe:
+/*int day_of_the_week(int day, int month, int year)
+{
+    // Check, ob das Datum valide ist
+    if(day_of_the_year == -1)
+        return -1;
+
+    // Deklaration von Rechenvariablen
+    //  Hier: Die Zehnerstellen. Bei Januar oder Februar wird die Zehnerstelle aus dem Vorjahr genommen
+    double tens = year % 100;
+    if(month == 1 || month == 2)
+        tens = (year%100)-1;
+    if(tens == -1)
+        tens = 99;
+
+    //  Hier: Die Hunderterstellen. Bei Januar oder Februar werden die Hunderterstellen aus dem Vorjahr genommen
+    double hundreds;
+    if (month == 1 || month == 2)
+        hundreds = (year-1) - ((year-1) % 100);
+    else
+        hundreds = year - (year % 100);
+
+        // WIP: 2.6*month // tens/4 // hundreds/4 braucht ROUNDUP()
+    int Wochentag = (day + (2.6*month)-0.2)+tens+(tens/4)+(hundreds/4)-2*hundreds)%7
+}
+*/
+
+// Gibt den Tag im Jahr zurück
+// Eingabe: Day - Tag in einem Jahr. Month - Monat in einem Jahr. Year - Jahr
+// Rückgabe: Tage im Jahr. Wenn ungültig, -1
