@@ -3,6 +3,7 @@
 // erstellt von Fabio Scholle
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 int tage_im_jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 int jahr;
@@ -11,7 +12,37 @@ int tag;
 int tageInsgesamt = 0;
 int check = 0;
 
-// Datumsberechnung
+// WIP
+// Gibt den Tag der Woche zurück. "0" für Sonntag und "6" für Samstag
+// Eingabe: Day - Tag. Month - Monat. Year - Jahr.
+// Rückgabe:
+/*int day_of_the_week(int day, int month, int year)
+{
+    // Check, ob das Datum valide ist
+    if(day_of_the_year == -1)
+        return -1;
+
+    // Deklaration von Rechenvariablen
+    //  Hier: Die Zehnerstellen. Bei Januar oder Februar wird die Zehnerstelle aus dem Vorjahr genommen
+    double tens = year % 100;
+    if(month == 1 || month == 2)
+        tens = (year%100)-1;
+    if(tens == -1)
+        tens = 99;
+
+    //  Hier: Die Hunderterstellen. Bei Januar oder Februar werden die Hunderterstellen aus dem Vorjahr genommen
+    double hundreds;
+    if (month == 1 || month == 2)
+        hundreds = (year-1) - ((year-1) % 100);
+    else
+        hundreds = year - (year % 100);
+
+        // WIP: 2.6*month // tens/4 // hundreds/4 braucht ROUNDUP()
+    int Wochentag = (day + (2.6*month)-0.2)+tens+(tens/4)+(hundreds/4)-2*hundreds)%7
+}
+*/
+
+// Gibt den Tag im Jahr zurück
 // Eingabe: Day - Tag in einem Jahr. Month - Monat in einem Jahr. Year - Jahr
 // Rückgabe: Tage im Jahr. Wenn ungültig, -1
 int day_of_the_year(int day, int month, int year)
@@ -28,7 +59,6 @@ int day_of_the_year(int day, int month, int year)
 
     return tageInsgesamt;
 }
-
 // Datumseingabe. Reine Scanf // Printff-Funktion zur Eingabe von Daten
 // Eingabe: ---
 // Ausgabe: Nur in der Konsole.
