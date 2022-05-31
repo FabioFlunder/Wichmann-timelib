@@ -1,28 +1,46 @@
+// Bibliothek zu DayOfTheYear
+// Zuletzt bearbeitet am 31.05.2022
+// von Fabio Scholle
+
 #include "bibliothek.h"
 #include <stdio.h>
-int tageInsgesamt = 0;
-int check = 0;
 
+// Rechnung für den Tag des Jahres
+// Eingabe: Struct Date
+// Ausgabe: Int-Wert mit dem Wert des Tag des Jahres
 int day_of_the_year(struct Datum date)
 {
+    // Deklaration der Zählervariable
+    int tageInsgesamt = 0;
+
+    // Check: Existiert das Datum?
     if(exists_date(date) == 0)
         return -1;
+
+    // Zählende for-Schleife für alle Monate, die nicht der momentane sind
     for(int i = 0; i < date.month-1; i++)
     {
         tageInsgesamt += get_days_for_month(i+1, date.year);
     }
+    // Alle Tage des derzeitigen Monats werden mitgezählt
     tageInsgesamt += date.day;
+
+    // Wenn der Monat nach Februar ist muss das Schaltjahr berücksichtigt werden
     if(date.month > 2)
         tageInsgesamt += is_leapyear(date.year);
 
     return tageInsgesamt;
 }
 // Datumseingabe. Reine Scanf // Printff-Funktion zur Eingabe von Daten
-// Eingabe: ---
-// Ausgabe: Nur in der Konsole.
+// Eingabe: Date-struct, welches befüllt wird
+// Ausgabe: Der errechnete Tag des Jahres
 int input_date(struct Datum date)
 {
-    //Jahreseingabe
+    int check = 0;
+
+    //Es folgen die Eingaben für Jahr, Monat und Tag. Die sind immer wieder in Do-While-Schleifen gewrappt um falsche EIngaben abzufangen
+
+    // Jahreseingabe
     do
     {
         printf("Geben Sie das Jahr ein: ");
@@ -68,11 +86,14 @@ int input_date(struct Datum date)
 
 }
 
+
 // Funktion zur Schaltjahrbestimmung
 // Eingabe: year - Ein Jahr
 // Ausgabe: Vor Jahr 1582: -1 // Ansonsten 0 wenn kein Schaltjahr oder 1 wenn ein Schaltjahr vorliegt
 int is_leapyear(int year)
 {
+
+    // Berechnung des Algorithmus. Das Schema wurde gefunden auf Wikipedia: https://en.wikipedia.org/wiki/Leap_year#Algorithm
     if(year < 1582)
         return -1;
 
@@ -94,24 +115,33 @@ int is_leapyear(int year)
 // Ausgabe: Tage im Monat anhand der vorliegenden Monatstabelle
 int get_days_for_month(int month, int year)
 {
+        // Definition der Monatstabelle
         int tage_im_jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+        // Abfangen von ungültigen Werten
         if(month < 1 || month > 12 || is_leapyear(year) == -1)
             return -1;
+
+        // Rückgabe von Februar mit eventuellen Schalttagen
         if(month == 2)
             return (tage_im_jahr[month-1] + is_leapyear(year));
+
+        //Rückgabe von allen anderen Monaten
         else
             return tage_im_jahr[month-1];
 }
 
 // Datumsüberprüfung
-// Eingabe: day - ein Tag // month - ein Monat // year - ein Jahr
+// Eingabe: ein date-struct
 // Ausgabe: 0 wenn invalid, 1 wenn valid
 int exists_date(struct Datum date)
 {
+    // Abfangen von invaliden Daten
     if(date.year < 1582 || date.year > 2400||
        date.month < 1 || date.month > 12||
        date.day < 1 || date.day > get_days_for_month(date.month, date.year))
        return 0;
+
     else
         return 1;
 }

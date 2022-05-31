@@ -1,3 +1,6 @@
+// Header für DayOfTheYear
+// Bearbeitet am 31.05.2022
+// Von Fabio Scholle
 
 struct Datum {
     int day;
