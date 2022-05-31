@@ -1,7 +1,5 @@
 #include "bibliothek.h"
 #include <stdio.h>
-
-int tage_im_jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 int tageInsgesamt = 0;
 int check = 0;
 
@@ -11,7 +9,7 @@ int day_of_the_year(struct Datum date)
         return -1;
     for(int i = 0; i < date.month-1; i++)
     {
-        tageInsgesamt += tage_im_jahr[i];
+        tageInsgesamt += get_days_for_month(i+1, date.year);
     }
     tageInsgesamt += date.day;
     if(date.month > 2)
@@ -66,8 +64,8 @@ int input_date(struct Datum date)
         check = 0;
 
     } while(check);
-    printf("Es ist der %i. Tag im Jahr", day_of_the_year(date));
-    return 0;
+    return day_of_the_year(date);
+
 }
 
 // Funktion zur Schaltjahrbestimmung
@@ -96,6 +94,7 @@ int is_leapyear(int year)
 // Ausgabe: Tage im Monat anhand der vorliegenden Monatstabelle
 int get_days_for_month(int month, int year)
 {
+        int tage_im_jahr[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
         if(month < 1 || month > 12 || is_leapyear(year) == -1)
             return -1;
         if(month == 2)

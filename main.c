@@ -13,8 +13,8 @@ int main()
     date.month = 1;
     date.day = 1;
 
-    // Aufruf von input_date. Übernimmt IO-Funktionen.
-    input_date(date);
+    // Aufruf von input_date.
+    printf("Es ist der %i. Tag im Jahr", input_date(date));
 
     return 0;
 }
